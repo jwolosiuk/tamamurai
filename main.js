@@ -1,5 +1,5 @@
 // tamamurai — pixel-art samurai tamagotchi
-// Decyzja co 15 minut. Obserwuj, nie zarządzaj.
+// One decision every 15 minutes. Observe, don't manage.
 
 const STORAGE_KEY = 'tamamurai.state';
 const TICK_MS = 15 * 60 * 1000;
@@ -13,10 +13,10 @@ const SCALE = CANVAS_SIZE / SPRITE_SIZE;
 const SPRITE_FRAME_MS = 1500;
 
 const STATE_NAMES = {
-  meditating: 'medytuje',
-  sleeping: 'śpi',
-  eating: 'je',
-  training: 'trenuje',
+  meditating: 'meditating',
+  sleeping: 'sleeping',
+  eating: 'eating',
+  training: 'training',
 };
 
 const PALETTE = {
@@ -30,7 +30,7 @@ const PALETTE = {
   'B': '#8a7f6a',      // bowl
 };
 
-// Każdy sprite: 16 wierszy × 16 znaków. Funkcja validateSprites() poniżej weryfikuje wymiary.
+// Each sprite: 16 rows x 16 chars. validateSprites() below verifies dimensions.
 const SPRITES = {
   meditating: [
     [
@@ -188,29 +188,29 @@ const SPRITES = {
 
 const SAYINGS = {
   meditating: [
-    "Samuraj medytuje pod sakurą.",
-    "Cisza. Wewnątrz góra Fudżi.",
-    "Oddech wchodzi, oddech wychodzi.",
-    "Liść opada bez pośpiechu.",
-    "Myśl jest chmurą — przepływa.",
+    "The samurai meditates beneath the sakura.",
+    "Silence. Mount Fuji within.",
+    "Breath in, breath out.",
+    "A leaf falls without hurry.",
+    "A thought is a cloud — it passes.",
   ],
   sleeping: [
-    "Samuraj śpi spokojnie.",
-    "Sen o księżycu nad rzeką.",
-    "Cisza nocy chroni jego sny.",
-    "Oddech głęboki jak studnia.",
+    "The samurai sleeps peacefully.",
+    "A dream of the moon above the river.",
+    "Night's silence guards his dreams.",
+    "Breath deep as a well.",
   ],
   eating: [
-    "Samuraj je miskę ryżu.",
-    "Każde ziarno z wdzięcznością.",
-    "Smak prostoty.",
-    "Ciało dziękuje za posiłek.",
+    "The samurai eats a bowl of rice.",
+    "Every grain with gratitude.",
+    "The taste of simplicity.",
+    "The body thanks him for the meal.",
   ],
   training: [
-    "Samuraj ćwiczy katę.",
-    "Miecz tnie powietrze precyzyjnie.",
-    "Każdy ruch jest wszystkim.",
-    "Tysiąc razy ten sam cios.",
+    "The samurai practices a kata.",
+    "The blade cuts the air precisely.",
+    "Each motion is everything.",
+    "A thousand times the same strike.",
   ],
 };
 
@@ -218,11 +218,11 @@ function validateSprites() {
   for (const [name, frames] of Object.entries(SPRITES)) {
     frames.forEach((sprite, i) => {
       if (sprite.length !== SPRITE_SIZE) {
-        throw new Error(`Sprite ${name}[${i}] ma ${sprite.length} wierszy, oczekiwano ${SPRITE_SIZE}`);
+        throw new Error(`Sprite ${name}[${i}] has ${sprite.length} rows, expected ${SPRITE_SIZE}`);
       }
       sprite.forEach((row, y) => {
         if (row.length !== SPRITE_SIZE) {
-          throw new Error(`Sprite ${name}[${i}] wiersz ${y} ma ${row.length} znaków, oczekiwano ${SPRITE_SIZE}`);
+          throw new Error(`Sprite ${name}[${i}] row ${y} has ${row.length} chars, expected ${SPRITE_SIZE}`);
         }
       });
     });
@@ -309,7 +309,7 @@ function applyDrift(state, slotState) {
 function catchUp(state, nowMs) {
   let t = state.lastDecisionAt;
   let ticks = 0;
-  const maxTicks = 96 * 14; // ~2 tygodnie zaległości, sanity cap
+  const maxTicks = 96 * 14; // ~2 weeks of backlog, sanity cap
   while (nowMs - t >= TICK_MS && ticks < maxTicks) {
     t += TICK_MS;
     const slotTime = new Date(t);
@@ -378,8 +378,8 @@ function render() {
   els.discipline.style.width = state.discipline + '%';
 
   const ageDays = Math.floor((Date.now() - state.bornAt) / 86400000);
-  els.age.textContent = `Wiek: ${ageDays} ${ageDays === 1 ? 'dzień' : 'dni'}`;
-  els.state.textContent = `Stan: ${STATE_NAMES[state.currentState]}`;
+  els.age.textContent = `Age: ${ageDays} ${ageDays === 1 ? 'day' : 'days'}`;
+  els.state.textContent = `State: ${STATE_NAMES[state.currentState]}`;
 
   if (state.currentState !== lastSayingState) {
     currentSaying = pickSaying(state.currentState);
@@ -408,12 +408,12 @@ function tickIfDue() {
 
 function feed() {
   if (state.hunger < 30) {
-    setTransientStatus('Samuraj nie jest głodny.');
+    setTransientStatus("The samurai isn't hungry.");
     render();
     return;
   }
   applyDrift(state, 'eating');
-  setTransientStatus('Samuraj przyjmuje miskę z wdzięcznością.');
+  setTransientStatus('The samurai accepts the bowl with gratitude.');
   saveState(state);
   lastSayingState = null;
   render();
@@ -421,12 +421,12 @@ function feed() {
 
 function train() {
   if (state.energy < 30) {
-    setTransientStatus('Samuraj jest zmęczony — najpierw odpoczynek.');
+    setTransientStatus('The samurai is tired — rest first.');
     render();
     return;
   }
   applyDrift(state, 'training');
-  setTransientStatus('Samuraj sięga po katanę.');
+  setTransientStatus('The samurai reaches for the katana.');
   saveState(state);
   lastSayingState = null;
   render();
@@ -434,19 +434,19 @@ function train() {
 
 function rest() {
   if (isNight(new Date())) {
-    setTransientStatus('Samuraj już śpi.');
+    setTransientStatus('The samurai is already asleep.');
     render();
     return;
   }
   applyDrift(state, 'sleeping');
-  setTransientStatus('Samuraj składa się do snu.');
+  setTransientStatus('The samurai settles into sleep.');
   saveState(state);
   lastSayingState = null;
   render();
 }
 
 function bow() {
-  setTransientStatus('Samuraj odwzajemnia ukłon.', 2500);
+  setTransientStatus('The samurai bows back.', 2500);
   render();
 }
 
@@ -470,7 +470,7 @@ document.addEventListener('visibilitychange', () => {
   if (!document.hidden) tickIfDue();
 });
 
-// Debug helpers — w devtools console można zrobić: tamamurai.state, tamamurai.reset()
+// Debug helpers — in devtools console: tamamurai.state, tamamurai.reset()
 window.tamamurai = {
   get state() { return state; },
   reset() { localStorage.removeItem(STORAGE_KEY); location.reload(); },
