@@ -1,10 +1,10 @@
 # tamamurai
 
-Minimalistyczny pixel-art samuraj-tamagotchi. Większość dnia medytuje. Czasem je, śpi, trenuje. Obserwuj, nie zarządzaj.
+A minimalist pixel-art samurai tamagotchi. He meditates most of the day. Sometimes he eats, sleeps, trains. Observe, don't manage.
 
-## Uruchomienie
+## Running
 
-Otwórz `index.html` w przeglądarce. To wszystko — zero buildu, zero zależności.
+Open `index.html` in a browser. That's it — no build, no dependencies.
 
 ```
 open index.html        # macOS
@@ -12,45 +12,45 @@ xdg-open index.html    # Linux
 start index.html       # Windows
 ```
 
-Albo wrzuć katalog na GitHub Pages / Cloudflare Pages.
+Or drop the directory onto GitHub Pages / Cloudflare Pages.
 
-## Filozofia
+## Philosophy
 
-Klasyczne tamagotchi jest chaotyczne — wymaga ciągłej uwagi. Ten jest odwrotnością: rytm dobowy, decyzja raz na 15 minut, samuraj sam wybiera co robi w zależności od pory dnia i swoich potrzeb.
+A classic tamagotchi is chaotic — it demands constant attention. This one is the opposite: a daily rhythm, one decision every 15 minutes, the samurai chooses what to do based on the time of day and his own needs.
 
-- **22:00–06:00** — śpi (regeneruje energię).
-- **06:30–07:00** — poranny trening.
-- **głód > 75** — je miskę ryżu.
-- **reszta dnia** — medytuje.
+- **22:00–06:00** — sleeps (energy regenerates).
+- **06:30–07:00** — morning training.
+- **hunger > 75** — eats a bowl of rice.
+- **the rest of the day** — meditates.
 
-3 przyciski (Nakarm / Trening / Odpocznij) to nudge, nie kontrola — samuraj odmówi jeśli sytuacja nie pasuje.
+The three buttons (Feed / Train / Rest) are nudges, not control — the samurai will refuse if the situation doesn't fit.
 
-## Stan
+## State
 
-Zapisywany w `localStorage` pod kluczem `tamamurai.state`. Stan żyje dalej między sesjami — po powrocie samuraj nadrabia zaległe 15-minutowe sloty (max 2 tygodnie).
+Saved in `localStorage` under the key `tamamurai.state`. The state persists between sessions — when you come back, the samurai catches up on the missed 15-minute slots (capped at ~2 weeks).
 
 ## Debug / reset
 
-W DevTools console:
+In the DevTools console:
 
 ```js
-tamamurai.state          // bieżący stan
-tamamurai.forceTick()    // wymuś tick teraz
-tamamurai.rewind(8)      // cofnij lastDecisionAt o 8h i przeładuj (test catch-upu)
-tamamurai.reset()        // wyczyść localStorage i przeładuj
+tamamurai.state          // current state
+tamamurai.forceTick()    // force a tick now
+tamamurai.rewind(8)      // rewind lastDecisionAt by 8h and reload (catch-up test)
+tamamurai.reset()        // clear localStorage and reload
 ```
 
-## Struktura
+## Structure
 
 - `index.html` — markup
-- `style.css` — wygląd (paleta inspirowana drzeworytem: kremowe tło, tusz, cynober)
+- `style.css` — styling (palette inspired by woodblock prints: cream paper, ink, vermilion)
 - `main.js` — state machine + sprite data + render
 
-Sprite'y to ASCII grids 16×16 zakodowane w `main.js`. Łatwe do edycji — palette w `PALETTE`, sprite'y w `SPRITES`.
+Sprites are 16×16 ASCII grids encoded in `main.js`. Easy to edit — palette in `PALETTE`, sprites in `SPRITES`.
 
-## Out of scope (świadomie)
+## Out of scope (deliberately)
 
 - Multi-tamagotchi / peer-to-peer.
-- LLM-generowane myśli (paleta fraz jest statyczna).
-- Backend / sync między urządzeniami.
+- LLM-generated thoughts (the saying pool is static).
+- Backend / cross-device sync.
 - Build pipeline.
