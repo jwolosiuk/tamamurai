@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>tamamurai</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="frame">
+    <header class="title">
+      <h1>tamamurai</h1>
+      <p class="subtitle">小さな侍</p>
+    </header>
+
+    <p id="status" class="status">Samuraj medytuje pod sakurą.</p>
+
+    <div class="stage">
+      <canvas id="canvas" width="256" height="256" aria-label="Pixel-art samuraj"></canvas>
+    </div>
+
+    <section class="needs" aria-label="Potrzeby samuraja">
+      <div class="bar">
+        <span class="bar-label">食 głód</span>
+        <div class="bar-track"><div id="bar-hunger" class="bar-fill"></div></div>
+      </div>
+      <div class="bar">
+        <span class="bar-label">気 energia</span>
+        <div class="bar-track"><div id="bar-energy" class="bar-fill"></div></div>
+      </div>
+      <div class="bar">
+        <span class="bar-label">心 skupienie</span>
+        <div class="bar-track"><div id="bar-focus" class="bar-fill"></div></div>
+      </div>
+      <div class="bar">
+        <span class="bar-label">道 dyscyplina</span>
+        <div class="bar-track"><div id="bar-discipline" class="bar-fill"></div></div>
+      </div>
+    </section>
+
+    <section class="meta">
+      <span id="meta-age">Wiek: 0 dni</span>
+      <span id="meta-state">Stan: medytuje</span>
+    </section>
+
+    <section class="actions">
+      <button id="btn-feed" type="button">Nakarm</button>
+      <button id="btn-train" type="button">Trening</button>
+      <button id="btn-rest" type="button">Odpocznij</button>
+    </section>
+
+    <footer class="foot">
+      <small>15 minut na decyzję. Obserwuj, nie zarządzaj.</small>
+    </footer>
+  </main>
+
+  <script src="main.js"></script>
+</body>
+</html>
